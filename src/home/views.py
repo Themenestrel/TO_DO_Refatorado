@@ -1,5 +1,7 @@
+from django.core.serializers import serialize
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import View
 
 from grupo.models import Grupo
@@ -15,6 +17,23 @@ class Index(LoginRequiredMixin, View):
 
         return render(request, "home/index.html", {'grupos': grupos})
 
+def get_subgrupos(request, id_grupo):
+
+    if request.method == 'GET':
+        grupo = get_object_or_404(Grupo, id=id_grupo)
+        subgrupos = list(grupo.subgrupo_set.all().values('id', 'nome'))
+        
+        return JsonResponse({'subgrupos': subgrupos})   
+
+
+def get_tarefas(request, id_subgrupo):
+
+    if request.method == 'GET':
+        subgrupo = get_object_or_404(SubGrupo, id=id_subgrupo)
+        tarefas = list(subgrupo.tarefa_set.all().values('id', 'title'))
+        
+        return JsonResponse({'tarefas': tarefas})  
+        
 
 class Grupos(LoginRequiredMixin, View):
 

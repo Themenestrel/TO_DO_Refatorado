@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-
-
 <div class='header-bar'>
     <div>
         <h1>Hello, {{ user }}</h1>
@@ -45,20 +45,37 @@
 
 
 
-         <div class="col-sm-4">
-                    <form action='/' method="GET">
-                        {% for grupo in grupos %}
-                            <label id="texto" for="tipo_consulta"></label>
-                            <select class="select-css" id="tipo_consulta" name="consulta" onchange="main(this.value)">
-                                <option value="{{ grupo.id }} " selected hidden>Selecione o Grupo</option>
-                            </select>
-                        {% endfor %}
-                        <button id="pesquisar">Pesquisar<i class="fa fa-search"></i></button>
-                    </form>
-            </div>
+    <div class="col-sm-4">
+        <form action='/' method="GET">
+            <label id="texto" for="tipo_consulta">Grupo</label>
+            <select class="select-css" id="id_grupo" name="grupo">
+                <option >-------</option>
+                {% for grupo in grupos %}
+                    <option value="{{ grupo.id }} ">{{ grupo }}</option>
+                {% endfor %}
+            </select>
+
+            <label id="texto" for="id_subgrupo">Sub-Grupo</label>
+            <select class="select-css" id="id_subgrupo" name="subgrupo">
+                <option >-------</option>
+            </select>
+
+            <label id="texto" for="id_subgrupo">Tarefas</label>
+            <select class="select-css" id="id_tarefa" name="consulta">
+                <option >-------</option>
+            </select>
+            
+            <button id="pesquisar">Pesquisar<i class="fa fa-search"></i></button>
+        </form>
+    </div>
 
 
 
 </div>
 
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'home/js/busca.js' %}"></script>
+{% endblock %}
+
